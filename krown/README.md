@@ -6,7 +6,7 @@ A fast, static e-commerce site. Plain HTML, CSS and JavaScript: no build step, n
 
 | Page | File |
 |---|---|
-| Home (hero, categories, bestsellers, reviews) | `index.html` |
+| Home (headline + product carousel, categories, bestsellers, reviews) | `index.html` |
 | Shop all / by category | `shop.html`, `shop.html?cat=rings` |
 | Product page (photos, sizes, add to cart, buy now) | `product.html?id=…` |
 | Cart (change quantity, remove, free-shipping bar) | `cart.html` |
@@ -28,7 +28,6 @@ cd krown && python3 -m http.server 8000   # then open http://localhost:8000
 3. **Photos:** the images in `images/` are computer-generated placeholders. Replace them with your supplier's or your own photos:
    - Easiest: overwrite a file and keep its name (e.g. `images/products/ring-solitaire-1.jpg`).
    - Square images of about 1000×1000 px look best. The first photo is the main one; the second shows when a shopper hovers over a card.
-   - Hero: `images/hero.jpg` (about 1800×1100; keep the left side fairly plain so the headline stays readable).
 4. **Reviews:** the three homepage reviews are **placeholders**. Replace them with real customer reviews before launch; publishing invented reviews is illegal in the US (FTC) and many other countries.
 5. **Policies:** Privacy Policy and Terms in `help.html` are template text. Have them checked for your business, and make sure the shipping times, return window and materials match what your supplier actually provides.
 

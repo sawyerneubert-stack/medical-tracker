@@ -10,22 +10,28 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24'%3E%3Cpath d='M3 19 5 6l6.5 6.5L16 3l4.5 9.5L27 6l2 13Z' fill='%23b08d57'/%3E%3C/svg%3E">
 <title>KROWN Jewelers | Jewelry Made for Every Moment</title>
 <meta name="description" content="Gold necklaces, rings, earrings and bracelets made for everyday luxury. Free shipping over $50 and 30-day returns.">
-<link rel="preload" as="image" href="images/hero.jpg">
 </head>
 <body data-page="home">
 <div id="site-header"></div>
 
 <main>
   <section class="hero">
-    <img class="hero-img" src="images/hero.jpg" alt="Gold pendant necklace, stud earrings and solitaire ring on cream silk" width="1800" height="1100">
-    <div class="hero-text">
-      <div class="container">
-        <div class="hero-copy">
-          <div class="eyebrow">Everyday Fine Jewelry</div>
-          <h1>Jewelry Made for Every Moment</h1>
-          <p>Timeless gold pieces designed to be worn, layered and loved, from your morning coffee to your biggest nights.</p>
-          <a href="shop.html" class="btn">Shop Now</a>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow">Everyday Fine Jewelry</div>
+        <h1>Jewelry Made for Every Moment</h1>
+        <p>Timeless gold pieces designed to be worn, layered and loved, from your morning coffee to your biggest nights.</p>
+        <a href="shop.html" class="btn">Shop Now</a>
+      </div>
+      <div class="showcase" aria-label="Featured jewelry">
+        <div class="showcase-head">
+          <span class="eyebrow">Shop the Collection</span>
+          <div class="showcase-arrows">
+            <button class="arrow" id="sc-prev" aria-label="Previous products">&#8592;</button>
+            <button class="arrow" id="sc-next" aria-label="Next products">&#8594;</button>
+          </div>
         </div>
+        <div class="showcase-track" id="showcase"></div>
       </div>
     </div>
   </section>
@@ -105,6 +111,24 @@
     const best = window.PRODUCTS.filter((p) => p.badge === "Bestseller");
     const rest = window.PRODUCTS.filter((p) => p.badge !== "Bestseller");
     $("#bestsellers").innerHTML = best.concat(rest).slice(0, 8).map(cardHTML).join("");
+
+    // Hero product carousel: every product, bestsellers first.
+    const track = $("#showcase");
+    track.innerHTML = best.concat(rest).map((p) => `
+      <a class="sc-card" href="product.html?id=${encodeURIComponent(p.id)}">
+        <img src="${esc(p.images[0])}" alt="${esc(p.name)}" width="600" height="600">
+        <span class="sc-info"><span class="sc-name">${esc(p.name)}</span><span>${window.K.priceHTML(p)}</span></span>
+      </a>`).join("");
+    const step = () => track.querySelector(".sc-card").offsetWidth + 16;
+    $("#sc-prev").onclick = () => track.scrollBy({ left: -step(), behavior: "smooth" });
+    $("#sc-next").onclick = () => track.scrollBy({ left: step(), behavior: "smooth" });
+    const syncArrows = () => {
+      $("#sc-prev").disabled = track.scrollLeft < 4;
+      $("#sc-next").disabled = track.scrollLeft + track.clientWidth > track.scrollWidth - 4;
+    };
+    track.addEventListener("scroll", syncArrows, { passive: true });
+    window.addEventListener("resize", syncArrows);
+    syncArrows();
   })();
 </script>
 </body>
