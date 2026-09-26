@@ -1,0 +1,138 @@
+/*
+ * Product catalog. To replace a photo, overwrite the file in images/products/
+ * (keep the name) or change the paths in `images`. Square images, about
+ * 1000×1000, work best.
+ */
+window.CATEGORIES = [
+  { id: "necklaces", name: "Necklaces", image: "images/products/necklace-pendant-1.jpg" },
+  { id: "rings", name: "Rings", image: "images/products/ring-solitaire-1.jpg" },
+  { id: "earrings", name: "Earrings", image: "images/products/earrings-huggies-1.jpg" },
+  { id: "bracelets", name: "Bracelets", image: "images/products/bracelet-tennis-1.jpg" },
+];
+
+window.RING_SIZES = ["5", "6", "7", "8", "9", "10"];
+
+const photos = (slug) => [1, 2, 3].map((n) => `images/products/${slug}-${n}.jpg`);
+
+window.PRODUCTS = [
+  {
+    id: "aria-solitaire-pendant",
+    name: "Aria Solitaire Pendant",
+    category: "necklaces",
+    price: 48,
+    compareAt: 68,
+    badge: "Bestseller",
+    images: photos("necklace-pendant"),
+    description: "A single brilliant-cut stone in a polished gold bezel, on a fine box chain. The necklace you'll reach for every single day.",
+    details: ["18K gold plated stainless steel", "8 mm round cubic zirconia", "16\" chain + 2\" extender", "Tarnish-resistant & hypoallergenic"],
+  },
+  {
+    id: "celeste-pearl-necklace",
+    name: "Celeste Pearl Necklace",
+    category: "necklaces",
+    price: 44,
+    images: photos("necklace-pearl"),
+    description: "A single freshwater-style pearl suspended from a delicate gold chain. Timeless, understated and made for layering.",
+    details: ["18K gold plated stainless steel", "10 mm shell pearl", "16\" chain + 2\" extender", "Tarnish-resistant & hypoallergenic"],
+  },
+  {
+    id: "luxe-herringbone-chain",
+    name: "Luxe Herringbone Chain",
+    category: "necklaces",
+    price: 56,
+    compareAt: 72,
+    badge: "New",
+    images: photos("necklace-herringbone"),
+    description: "A liquid-smooth flat chain that catches the light with every move. Bold enough to wear alone, sleek enough to stack.",
+    details: ["18K gold plated stainless steel", "5 mm width", "16\" length + 2\" extender", "Tarnish-resistant & waterproof"],
+  },
+  {
+    id: "everly-solitaire-ring",
+    name: "Everly Solitaire Ring",
+    category: "rings",
+    price: 42,
+    compareAt: 58,
+    badge: "Bestseller",
+    images: photos("ring-solitaire"),
+    description: "A classic six-prong solitaire with a raised cathedral setting. Brilliant from every angle, at a price that makes sense.",
+    details: ["18K gold plated stainless steel", "7 mm round cubic zirconia", "2 mm comfort-fit band", "Tarnish-resistant & hypoallergenic"],
+  },
+  {
+    id: "eternal-band-ring",
+    name: "Eternal Band Ring",
+    category: "rings",
+    price: 38,
+    images: photos("ring-eternity"),
+    description: "Stones set all the way around for non-stop sparkle. Wear it on its own or stack it with your favourite rings.",
+    details: ["18K gold plated stainless steel", "Full-eternity cubic zirconia", "3 mm band width", "Tarnish-resistant & hypoallergenic"],
+  },
+  {
+    id: "monarch-signet-ring",
+    name: "Monarch Signet Ring",
+    category: "rings",
+    price: 46,
+    badge: "New",
+    images: photos("ring-signet"),
+    description: "A modern take on the heirloom signet, with a smooth oval face and a softly domed band. Quietly confident.",
+    details: ["18K gold plated stainless steel", "14 × 11 mm oval face", "Polished finish", "Tarnish-resistant & waterproof"],
+  },
+  {
+    id: "classic-brilliant-studs",
+    name: "Classic Brilliant Studs",
+    category: "earrings",
+    price: 32,
+    badge: "Bestseller",
+    images: photos("earrings-studs"),
+    description: "Round brilliant studs in a secure four-prong setting. The finishing touch for every outfit, day to night.",
+    details: ["18K gold plated sterling silver posts", "7 mm round cubic zirconia", "Push-back closure", "Hypoallergenic & nickel-free"],
+  },
+  {
+    id: "bold-huggie-hoops",
+    name: "Bold Huggie Hoops",
+    category: "earrings",
+    price: 36,
+    compareAt: 48,
+    images: photos("earrings-huggies"),
+    description: "Chunky, polished huggies that hug the lobe. Lightweight enough to sleep in, bold enough to be noticed.",
+    details: ["18K gold plated stainless steel", "15 mm diameter", "Hinged snap closure", "Tarnish-resistant & waterproof"],
+  },
+  {
+    id: "pearl-drop-earrings",
+    name: "Pearl Drop Earrings",
+    category: "earrings",
+    price: 34,
+    images: photos("earrings-pearl"),
+    description: "Luminous pearls on slim gold drops. Effortlessly elegant for weddings, dinners and everyday wear.",
+    details: ["18K gold plated sterling silver posts", "10 mm shell pearls", "30 mm drop length", "Hypoallergenic & nickel-free"],
+  },
+  {
+    id: "royal-tennis-bracelet",
+    name: "Royal Tennis Bracelet",
+    category: "bracelets",
+    price: 68,
+    compareAt: 95,
+    badge: "Bestseller",
+    images: photos("bracelet-tennis"),
+    description: "A continuous line of 3 mm brilliant stones in gold box settings. Pure sparkle for your wrist.",
+    details: ["18K gold plated brass", "3 mm cubic zirconia", "7\" length with safety clasp", "Tarnish-resistant"],
+  },
+  {
+    id: "figaro-chain-bracelet",
+    name: "Figaro Chain Bracelet",
+    category: "bracelets",
+    price: 38,
+    images: photos("bracelet-figaro"),
+    description: "The classic figaro pattern (three short links, one long) in a polished gold finish. Easy to wear, easy to love.",
+    details: ["18K gold plated stainless steel", "4 mm link width", "6.5\" + 1.5\" extender", "Tarnish-resistant & waterproof"],
+  },
+  {
+    id: "sculpted-cuff-bangle",
+    name: "Sculpted Cuff Bangle",
+    category: "bracelets",
+    price: 42,
+    badge: "New",
+    images: photos("bracelet-cuff"),
+    description: "A smooth, sculptural open cuff that slips on easily and stays put. Minimal, modern and made to be stacked.",
+    details: ["18K gold plated stainless steel", "6 mm width", "Fits most wrists (adjustable)", "Tarnish-resistant & waterproof"],
+  },
+];

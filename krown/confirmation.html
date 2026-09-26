@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24'%3E%3Cpath d='M3 19 5 6l6.5 6.5L16 3l4.5 9.5L27 6l2 13Z' fill='%23b08d57'/%3E%3C/svg%3E">
+<title>Order Confirmed | KROWN Jewelers</title>
+<meta name="robots" content="noindex">
+</head>
+<body data-page="confirmation">
+<div id="site-header"></div>
+
+<main class="container" id="confirm-root"></main>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+<script>
+  (function () {
+    const { $, esc, money, cfg } = window.K;
+    let order = null;
+    try {
+      order = JSON.parse(sessionStorage.getItem("krown_last_order"));
+    } catch (e) {}
+
+    const check = `<div class="check-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>`;
+
+    if (!order) {
+      $("#confirm-root").innerHTML = `<div class="confirm">${check}<h1>Thank You</h1><p>If you just placed an order, a confirmation email is on its way. Questions? Email <a href="mailto:${esc(cfg.email)}">${esc(cfg.email)}</a>.</p><br><a class="btn" href="shop.html">Continue Shopping</a></div>`;
+      return;
+    }
+
+    const c = order.customer;
+    $("#confirm-root").innerHTML = `
+      <div class="confirm">
+        ${check}
+        <div class="eyebrow">Order Confirmed</div>
+        <h1 style="margin-top:10px">Thank you, ${esc(c.first)}!</h1>
+        <p>Your order has been received. We've sent a confirmation to <b>${esc(c.email)}</b>.</p>
+        <div class="order-no">Order #${esc(order.orderNumber)}</div>
+        ${order.payment && order.payment.method === "demo" ? `<p class="secure-note">Demo order: no payment was taken.</p>` : ""}
+
+        <div class="confirm-card">
+          <h3>Order Details</h3>
+          ${order.items
+            .map(
+              (i) => `<div class="os-line"><div class="os-thumb"><img src="${esc(i.image)}" alt="" width="64" height="64"><i>${i.qty}</i></div>
+                <div>${esc(i.name)}${i.size ? `<small>Size ${esc(i.size)}</small>` : ""}</div><div>${money(i.price * i.qty)}</div></div>`
+            )
+            .join("")}
+          <div style="margin-top:12px">
+            <div class="sum-row"><span>Subtotal</span><span>${money(+order.subtotal)}</span></div>
+            <div class="sum-row"><span>Shipping (${esc(order.shippingMethod)})</span><span>${+order.shipping ? money(+order.shipping) : "Free"}</span></div>
+            <div class="sum-row total"><span>Total</span><span>${money(+order.total)}</span></div>
+          </div>
+          <div class="confirm-cols">
+            <div><h4>Shipping To</h4>${esc(c.first)} ${esc(c.last)}<br>${esc(c.address1)}${c.address2 ? "<br>" + esc(c.address2) : ""}<br>${esc(c.city)}, ${esc(c.region)} ${esc(c.postal)}<br>${esc(c.country)}</div>
+            <div><h4>Contact</h4>${esc(c.email)}${c.phone ? "<br>" + esc(c.phone) : ""}</div>
+          </div>
+        </div>
+
+        <div class="steps-list">
+          <div><b>1. Processing</b>We prepare your piece within 1–3 business days.</div>
+          <div><b>2. Shipped</b>You'll receive a tracking link by email.</div>
+          <div><b>3. Delivered</b>Wear it, love it, or return it within 30 days.</div>
+        </div>
+        <a class="btn" href="shop.html">Continue Shopping</a>
+      </div>`;
+  })();
+</script>
+</body>
+</html>
