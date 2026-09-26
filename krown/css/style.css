@@ -66,16 +66,11 @@ h3 { font-size: 1.5rem; }
 .cart-count { background: var(--gold); color: var(--white); font-size: 0.68rem; min-width: 20px; height: 20px; border-radius: 10px; display: inline-grid; place-items: center; padding: 0 5px; letter-spacing: 0; }
 
 /* Hero */
-.hero { background: var(--cream); overflow: hidden; }
-.hero-inner { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 5vw, 72px); align-items: center; min-height: min(78vh, 720px); padding-top: 48px; padding-bottom: 48px; }
+.hero { position: relative; background: var(--cream); overflow: hidden; }
+.hero-img { width: 100%; height: min(78vh, 720px); min-height: 480px; object-fit: cover; object-position: 70% center; }
+.hero-text { position: absolute; inset: 0; display: flex; align-items: center; }
+.hero-text .container { width: min(1200px, 100%); }
 .hero-copy { max-width: 500px; }
-.showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 16px; max-width: 560px; justify-self: end; width: 100%; }
-.sc-tile { display: block; }
-.sc-tile img { width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--white); transition: opacity 0.3s; }
-.sc-tile:hover img { opacity: 0.88; }
-.sc-tag { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding-top: 10px; font-size: 0.9rem; }
-.sc-tag .compare { display: none; }
-.sc-name { font-family: var(--serif); font-size: 1.12rem; color: var(--black); line-height: 1.2; }
 .hero-copy h1 { margin: 14px 0 18px; }
 .hero-copy p { color: var(--muted); font-size: 1.08rem; margin-bottom: 30px; max-width: 420px; }
 
@@ -303,7 +298,6 @@ h3 { font-size: 1.5rem; }
   .cat-grid { grid-template-columns: repeat(2, 1fr); }
   .trust-grid { grid-template-columns: repeat(2, 1fr); }
   .reviews { grid-template-columns: 1fr; }
-  .hero-inner { grid-template-columns: 1fr; }
   .pdp, .split, .cart-layout, .checkout-layout { grid-template-columns: 1fr; }
   .pdp-info, .summary-box { position: static; }
   .order-summary { position: static; order: -1; }
@@ -318,10 +312,8 @@ h3 { font-size: 1.5rem; }
   .nav-inner { height: 62px; }
   .nav-links { gap: 14px; font-size: 0.72rem; letter-spacing: 0.1em; }
   .cart-link svg { display: none; }
-  .hero-inner { min-height: 0; padding-top: 36px; padding-bottom: 40px; }
-  .showcase { gap: 16px 10px; max-width: none; }
-  .sc-tag { flex-direction: column; gap: 0; padding-top: 8px; font-size: 0.84rem; }
-  .sc-name { font-size: 1.02rem; }
+  .hero-img { height: auto; min-height: 0; aspect-ratio: 4 / 3; object-position: 78% center; }
+  .hero-text { position: static; padding: 32px 0 44px; }
   .hero-copy h1 { margin: 10px 0 12px; }
   .hero-copy p { margin-bottom: 22px; }
   .hero .btn { width: 100%; }

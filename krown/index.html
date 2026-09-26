@@ -10,20 +10,23 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24'%3E%3Cpath d='M3 19 5 6l6.5 6.5L16 3l4.5 9.5L27 6l2 13Z' fill='%23b08d57'/%3E%3C/svg%3E">
 <title>KROWN Jewelers | Jewelry Made for Every Moment</title>
 <meta name="description" content="Gold necklaces, rings, earrings and bracelets made for everyday luxury. Free shipping over $50 and 30-day returns.">
+<link rel="preload" as="image" href="images/hero.jpg">
 </head>
 <body data-page="home">
 <div id="site-header"></div>
 
 <main>
   <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-copy">
-        <div class="eyebrow">Everyday Fine Jewelry</div>
-        <h1>Jewelry Made for Every Moment</h1>
-        <p>Timeless gold pieces designed to be worn, layered and loved, from your morning coffee to your biggest nights.</p>
-        <a href="shop.html" class="btn">Shop Now</a>
+    <img class="hero-img" src="images/hero.jpg" alt="Gold pendant necklace, stud earrings and solitaire ring on cream silk" width="1800" height="1100">
+    <div class="hero-text">
+      <div class="container">
+        <div class="hero-copy">
+          <div class="eyebrow">Everyday Fine Jewelry</div>
+          <h1>Jewelry Made for Every Moment</h1>
+          <p>Timeless gold pieces designed to be worn, layered and loved, from your morning coffee to your biggest nights.</p>
+          <a href="shop.html" class="btn">Shop Now</a>
+        </div>
       </div>
-      <div class="showcase" id="showcase" aria-label="Featured jewelry"></div>
     </div>
   </section>
 
@@ -102,14 +105,6 @@
     const best = window.PRODUCTS.filter((p) => p.badge === "Bestseller");
     const rest = window.PRODUCTS.filter((p) => p.badge !== "Bestseller");
     $("#bestsellers").innerHTML = best.concat(rest).slice(0, 8).map(cardHTML).join("");
-
-    // Hero showcase: change these ids to feature different pieces.
-    const featured = ["aria-solitaire-pendant", "everly-solitaire-ring", "bold-huggie-hoops", "royal-tennis-bracelet"];
-    $("#showcase").innerHTML = featured.map(window.K.product).filter(Boolean).map((p) => `
-      <a class="sc-tile" href="product.html?id=${encodeURIComponent(p.id)}">
-        <img src="${esc(p.images[0])}" alt="${esc(p.name)}" width="1000" height="1000">
-        <span class="sc-tag"><span class="sc-name">${esc(p.name)}</span><span>${window.K.priceHTML(p)}</span></span>
-      </a>`).join("");
   })();
 </script>
 </body>
