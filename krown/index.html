@@ -23,16 +23,7 @@
         <p>Timeless gold pieces designed to be worn, layered and loved, from your morning coffee to your biggest nights.</p>
         <a href="shop.html" class="btn">Shop Now</a>
       </div>
-      <div class="showcase" aria-label="Featured jewelry">
-        <div class="showcase-head">
-          <span class="eyebrow">Shop the Collection</span>
-          <div class="showcase-arrows">
-            <button class="arrow" id="sc-prev" aria-label="Previous products">&#8592;</button>
-            <button class="arrow" id="sc-next" aria-label="Next products">&#8594;</button>
-          </div>
-        </div>
-        <div class="showcase-track" id="showcase"></div>
-      </div>
+      <div class="showcase" id="showcase" aria-label="Featured jewelry"></div>
     </div>
   </section>
 
@@ -112,23 +103,13 @@
     const rest = window.PRODUCTS.filter((p) => p.badge !== "Bestseller");
     $("#bestsellers").innerHTML = best.concat(rest).slice(0, 8).map(cardHTML).join("");
 
-    // Hero product carousel: every product, bestsellers first.
-    const track = $("#showcase");
-    track.innerHTML = best.concat(rest).map((p) => `
-      <a class="sc-card" href="product.html?id=${encodeURIComponent(p.id)}">
-        <img src="${esc(p.images[0])}" alt="${esc(p.name)}" width="600" height="600">
-        <span class="sc-info"><span class="sc-name">${esc(p.name)}</span><span>${window.K.priceHTML(p)}</span></span>
+    // Hero showcase: change these ids to feature different pieces.
+    const featured = ["aria-solitaire-pendant", "everly-solitaire-ring", "bold-huggie-hoops", "royal-tennis-bracelet"];
+    $("#showcase").innerHTML = featured.map(window.K.product).filter(Boolean).map((p) => `
+      <a class="sc-tile" href="product.html?id=${encodeURIComponent(p.id)}">
+        <img src="${esc(p.images[0])}" alt="${esc(p.name)}" width="1000" height="1000">
+        <span class="sc-tag"><span class="sc-name">${esc(p.name)}</span><span>${window.K.priceHTML(p)}</span></span>
       </a>`).join("");
-    const step = () => track.querySelector(".sc-card").offsetWidth + 16;
-    $("#sc-prev").onclick = () => track.scrollBy({ left: -step(), behavior: "smooth" });
-    $("#sc-next").onclick = () => track.scrollBy({ left: step(), behavior: "smooth" });
-    const syncArrows = () => {
-      $("#sc-prev").disabled = track.scrollLeft < 4;
-      $("#sc-next").disabled = track.scrollLeft + track.clientWidth > track.scrollWidth - 4;
-    };
-    track.addEventListener("scroll", syncArrows, { passive: true });
-    window.addEventListener("resize", syncArrows);
-    syncArrows();
   })();
 </script>
 </body>

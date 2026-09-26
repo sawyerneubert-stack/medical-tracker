@@ -6,7 +6,7 @@ A fast, static e-commerce site. Plain HTML, CSS and JavaScript: no build step, n
 
 | Page | File |
 |---|---|
-| Home (headline + product carousel, categories, bestsellers, reviews) | `index.html` |
+| Home (headline + product showcase, categories, bestsellers, reviews) | `index.html` |
 | Shop all / by category | `shop.html`, `shop.html?cat=rings` |
 | Product page (photos, sizes, add to cart, buy now) | `product.html?id=…` |
 | Cart (change quantity, remove, free-shipping bar) | `cart.html` |
