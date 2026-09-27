@@ -12,6 +12,9 @@
   const shortMoney = (n) => fmt.format(n).replace(/\.00$/, "");
   const product = (id) => window.PRODUCTS.find((p) => p.id === id);
   const param = (name) => new URLSearchParams(location.search).get(name);
+  // Optional per-product choice, e.g. options: { label: "Strap Size", values: ["S", "M", "L"] }
+  const optionOf = (p) => (p && p.options && p.options.values && p.options.values.length ? p.options : null);
+  const optionText = (p, value) => (value && optionOf(p) ? `${optionOf(p).label}: ${value}` : "");
 
   const LOGO = `<svg viewBox="0 0 32 24" aria-hidden="true"><path d="M3 19 5 6l6.5 6.5L16 3l4.5 9.5L27 6l2 13Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 22h24" stroke="currentColor" stroke-width="1.6"/></svg>`;
 
@@ -30,10 +33,10 @@
       .filter((l) => l && product(l.id))
       .map((l) => ({
         id: l.id,
-        size: product(l.id).category === "rings" && window.RING_SIZES.includes(l.size) ? l.size : null,
+        size: optionOf(product(l.id)) && optionOf(product(l.id)).values.includes(l.size) ? l.size : null,
         qty: Math.min(10, Math.max(1, parseInt(l.qty, 10) || 1)),
       }))
-      .filter((l) => product(l.id).category !== "rings" || l.size);
+      .filter((l) => !optionOf(product(l.id)) || l.size);
   }
 
   function writeCart(lines) {
@@ -88,7 +91,7 @@
         <div class="announce">Free shipping on orders over ${shortMoney(cfg.freeShippingOver)} &nbsp;·&nbsp; 30-day returns</div>
         <nav class="nav">
           <div class="container nav-inner">
-            <a href="index.html" class="logo" aria-label="${esc(cfg.brand)} home">${LOGO}<span>KROWN<small>JEWELERS</small></span></a>
+            <a href="index.html" class="logo" aria-label="${esc(cfg.brand)} home">${LOGO}<span>KROWN<small>WATCHES</small></span></a>
             <div class="nav-links">
               <a href="shop.html" ${page === "shop" ? 'aria-current="page"' : ""}>Shop</a>
               <a href="about.html" ${page === "about" ? 'aria-current="page"' : ""}>About</a>
@@ -105,8 +108,8 @@
       footer.innerHTML = `
         <div class="container footer-grid">
           <div>
-            <a href="index.html" class="logo">${LOGO}<span>KROWN<small>JEWELERS</small></span></a>
-            <p class="footer-note">Fine everyday jewelry, made for every moment.</p>
+            <a href="index.html" class="logo">${LOGO}<span>KROWN<small>WATCHES</small></span></a>
+            <p class="footer-note">Timepieces made for every moment.</p>
           </div>
           <div>
             <h4>Shop</h4>
@@ -168,13 +171,13 @@
     </article>`;
   }
 
-  /* ---------- Add to cart (with a size picker for rings) ---------- */
+  /* ---------- Add to cart (asks for the option first if the product has one) ---------- */
   function addToCart(id, size, qty = 1) {
     const p = product(id);
     if (!p) return;
-    if (p.category === "rings" && !size) return pickSize(p, (s) => addToCart(id, s, qty));
+    if (optionOf(p) && !size) return pickSize(p, (s) => addToCart(id, s, qty));
     Cart.add(id, size, qty);
-    toast(`<b>${esc(p.name)}</b>${size ? " · Size " + esc(size) : ""} added to cart <a href="cart.html">View Cart</a>`);
+    toast(`<b>${esc(p.name)}</b>${size ? " · " + esc(optionText(p, size)) : ""} added to cart <a href="cart.html">View Cart</a>`);
   }
 
   function pickSize(p, done) {
@@ -187,13 +190,12 @@
     }
     dlg.innerHTML = `<form method="dialog">
       <button class="dialog-close" value="cancel" aria-label="Close">✕</button>
-      <h3>Select your size</h3>
+      <h3>Select ${esc(optionOf(p).label)}</h3>
       <p>${esc(p.name)} · ${money(p.price)}</p>
-      <div class="size-grid">${window.RING_SIZES.map((s) => `<button class="size-btn" value="${s}">${s}</button>`).join("")}</div>
-      <a href="help.html#faq" class="link-sm">Not sure? See our ring size guide</a>
+      <div class="size-grid">${optionOf(p).values.map((s) => `<button class="size-btn" value="${esc(s)}">${esc(s)}</button>`).join("")}</div>
     </form>`;
     dlg.onclose = () => {
-      if (window.RING_SIZES.includes(dlg.returnValue)) done(dlg.returnValue);
+      if (optionOf(p).values.includes(dlg.returnValue)) done(dlg.returnValue);
     };
     dlg.returnValue = "";
     dlg.showModal();
@@ -221,6 +223,6 @@
     toastTimer = setTimeout(() => t.classList.remove("show"), 3200);
   }
 
-  window.K = { cfg, $, esc, money, shortMoney, product, param, Cart, cardHTML, priceHTML, addToCart, toast };
+  window.K = { cfg, $, esc, money, shortMoney, product, param, optionOf, optionText, Cart, cardHTML, priceHTML, addToCart, toast };
   renderChrome();
 })();

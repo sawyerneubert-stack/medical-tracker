@@ -1,7 +1,7 @@
 /* Store settings: edit these first. See README.md. */
 window.KROWN = {
-  brand: "KROWN Jewelers",
-  email: "support@krownjewelers.com",
+  brand: "KROWN Watches",
+  email: "support@krownwatches.com",
   currency: "USD",
 
   // Leave empty for demo mode (no real charges). Paste your PayPal Client ID

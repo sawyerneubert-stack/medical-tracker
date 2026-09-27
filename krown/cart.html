@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24'%3E%3Cpath d='M3 19 5 6l6.5 6.5L16 3l4.5 9.5L27 6l2 13Z' fill='%23b08d57'/%3E%3C/svg%3E">
-<title>Your Cart | KROWN Jewelers</title>
+<title>Your Cart | KROWN Watches</title>
 <meta name="robots" content="noindex">
 </head>
 <body data-page="cart">
@@ -23,13 +23,13 @@
 <script src="js/main.js"></script>
 <script>
   (function () {
-    const { $, esc, money, product, Cart, cfg } = window.K;
+    const { $, esc, money, product, Cart, cfg, optionText } = window.K;
     const root = $("#cart-root");
 
     function render() {
       const t = Cart.totals("standard");
       if (!t.lines.length) {
-        root.innerHTML = `<div class="empty-state"><h1>Your cart is empty</h1><p>Discover pieces made for every moment.</p><a class="btn" href="shop.html">Shop Now</a></div>`;
+        root.innerHTML = `<div class="empty-state"><h1>Your cart is empty</h1><p>Discover watches made for every moment.</p><a class="btn" href="shop.html">Shop Now</a></div>`;
         return;
       }
       const threshold = cfg.freeShippingOver * 100;
@@ -47,7 +47,7 @@
                   <a href="${url}"><img src="${esc(p.images[0])}" alt="${esc(p.name)}" width="110" height="110"></a>
                   <div>
                     <h3><a href="${url}">${esc(p.name)}</a></h3>
-                    <div class="opts">${money(p.price)}${l.size ? " · Size " + esc(l.size) : ""}</div>
+                    <div class="opts">${money(p.price)}${l.size ? " · " + esc(optionText(p, l.size)) : ""}</div>
                     <div class="line-actions">
                       <div class="qty qty-sm" aria-label="Quantity"><button data-dec="${k}" aria-label="Decrease quantity">−</button><span>${l.qty}</span><button data-inc="${k}" aria-label="Increase quantity">+</button></div>
                       <button class="remove-btn" data-remove="${k}">Remove</button>
