@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24'%3E%3Cpath d='M3 19 5 6l6.5 6.5L16 3l4.5 9.5L27 6l2 13Z' fill='%23b08d57'/%3E%3C/svg%3E">
-<title>KROWN Jewelers</title>
+<title>KROWN Watches</title>
 </head>
 <body data-page="product">
 <div id="site-header"></div>
@@ -29,19 +29,19 @@
 <script src="js/main.js"></script>
 <script>
   (function () {
-    const { $, esc, money, shortMoney, param, product, cardHTML, priceHTML, addToCart, cfg } = window.K;
+    const { $, esc, money, shortMoney, param, product, optionOf, cardHTML, priceHTML, addToCart, cfg } = window.K;
     const p = product(param("id"));
     const root = $("#pdp-root");
 
     if (!p) {
-      root.innerHTML = `<div class="empty-state"><h1>Product not found</h1><p>This piece may no longer be available.</p><a class="btn" href="shop.html">Shop All Jewelry</a></div>`;
+      root.innerHTML = `<div class="empty-state"><h1>Product not found</h1><p>This watch may no longer be available.</p><a class="btn" href="shop.html">Shop All Watches</a></div>`;
       return;
     }
 
     const cat = window.CATEGORIES.find((c) => c.id === p.category);
-    const isRing = p.category === "rings";
+    const opt = optionOf(p);
     const state = { img: 0, size: null, qty: 1 };
-    document.title = `${p.name} | KROWN Jewelers`;
+    document.title = `${p.name} | KROWN Watches`;
 
     root.innerHTML = `
       <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="shop.html?cat=${cat.id}">${esc(cat.name)}</a> / ${esc(p.name)}</nav>
@@ -58,10 +58,10 @@
           <div class="pdp-price">${priceHTML(p)}${p.compareAt ? `<span class="save">Save ${money(p.compareAt - p.price)}</span>` : ""}</div>
           <p class="pdp-desc">${esc(p.description)}</p>
           ${
-            isRing
-              ? `<div><div class="opt-label"><span>Ring Size (US)</span><a href="help.html#faq">Size guide</a></div>
-                 <div class="size-grid" id="sizes">${window.RING_SIZES.map((s) => `<button class="size-btn" data-size="${s}" aria-pressed="false">${s}</button>`).join("")}</div>
-                 <div class="field-error" id="size-error" hidden>Please select a ring size.</div></div>`
+            opt
+              ? `<div><div class="opt-label"><span>${esc(opt.label)}</span></div>
+                 <div class="size-grid" id="sizes">${opt.values.map((s) => `<button class="size-btn" data-size="${esc(s)}" aria-pressed="false">${esc(s)}</button>`).join("")}</div>
+                 <div class="field-error" id="size-error" hidden>Please select an option.</div></div>`
               : ""
           }
           <div class="buy-row">
@@ -77,7 +77,7 @@
           <div class="accordion">
             <details open><summary>Details</summary><div class="acc-body"><ul>${p.details.map((d) => `<li>${esc(d)}</li>`).join("")}</ul></div></details>
             <details><summary>Shipping &amp; Returns</summary><div class="acc-body">Orders are processed within 1–3 business days. Standard delivery takes 7–12 business days and is free over ${shortMoney(cfg.freeShippingOver)}. Not in love? Return it within 30 days. <a href="help.html#returns">Learn more</a></div></details>
-            <details><summary>Jewelry Care</summary><div class="acc-body">Store in the pouch provided, away from moisture. Remove before swimming or exercising, and wipe gently with a soft cloth to restore shine.</div></details>
+            <details><summary>Watch Care</summary><div class="acc-body">Wipe the case and strap with a soft, dry cloth. Keep leather straps away from water and perfume, never press buttons or pull the crown underwater, and store your watch in its box when you're not wearing it.</div></details>
           </div>
         </div>
       </div>`;
@@ -103,7 +103,7 @@
     });
 
     function ready() {
-      if (isRing && !state.size) {
+      if (opt && !state.size) {
         $("#size-error").hidden = false;
         $("#sizes").scrollIntoView({ block: "center", behavior: "smooth" });
         return false;

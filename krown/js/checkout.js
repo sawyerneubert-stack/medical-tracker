@@ -4,7 +4,7 @@
  * card details never touch this site. Without it, the page runs in demo mode.
  */
 (function () {
-  const { $, esc, money, product, Cart, cfg } = window.K;
+  const { $, esc, money, product, Cart, cfg, optionText } = window.K;
   const root = $("#checkout-root");
   const dollars = (c) => (c / 100).toFixed(2);
   const state = { shipping: cfg.shipping[0].id };
@@ -15,7 +15,7 @@
   ];
 
   if (!Cart.lines().length) {
-    root.innerHTML = `<div class="empty-state"><h1>Your cart is empty</h1><p>Add a piece you love, then come back to check out.</p><a class="btn" href="shop.html">Shop Now</a></div>`;
+    root.innerHTML = `<div class="empty-state"><h1>Your cart is empty</h1><p>Add a watch you love, then come back to check out.</p><a class="btn" href="shop.html">Shop Now</a></div>`;
     return;
   }
 
@@ -83,7 +83,7 @@
       .map((l) => {
         const p = product(l.id);
         return `<div class="os-line"><div class="os-thumb"><img src="${esc(p.images[0])}" alt="" width="64" height="64"><i>${l.qty}</i></div>
-          <div>${esc(p.name)}${l.size ? `<small>Size ${esc(l.size)}</small>` : ""}</div><div>${money(p.price * l.qty)}</div></div>`;
+          <div>${esc(p.name)}${l.size ? `<small>${esc(optionText(p, l.size))}</small>` : ""}</div><div>${money(p.price * l.qty)}</div></div>`;
       })
       .join("");
     $("#os-sums").innerHTML = `
@@ -147,7 +147,7 @@
       shippingMethod: (cfg.shipping.find((s) => s.id === state.shipping) || cfg.shipping[0]).label,
       items: t.lines.map((l) => {
         const p = product(l.id);
-        return { sku: p.id, name: p.name, size: l.size, qty: l.qty, price: p.price.toFixed(2), image: p.images[0] };
+        return { sku: p.id, name: p.name, option: optionText(p, l.size), qty: l.qty, price: p.price.toFixed(2), image: p.images[0] };
       }),
       subtotal: dollars(t.subtotal),
       shipping: dollars(t.shipping),
@@ -205,7 +205,7 @@
             const cur = cfg.currency;
             return actions.order.create({
               purchase_units: [{
-                description: "KROWN Jewelers order",
+                description: "KROWN Watches order",
                 amount: {
                   currency_code: cur,
                   value: dollars(t.total),
@@ -219,7 +219,7 @@
                   return {
                     name: p.name,
                     sku: p.id,
-                    description: l.size ? "Size " + l.size : undefined,
+                    description: l.size ? optionText(p, l.size).slice(0, 127) : undefined,
                     quantity: String(l.qty),
                     unit_amount: { currency_code: cur, value: p.price.toFixed(2) },
                   };
@@ -236,7 +236,7 @@
                   },
                 },
               }],
-              application_context: { shipping_preference: "SET_PROVIDED_ADDRESS", brand_name: "KROWN Jewelers" },
+              application_context: { shipping_preference: "SET_PROVIDED_ADDRESS", brand_name: "KROWN Watches" },
             });
           },
           onApprove: async (_d, actions) => {
