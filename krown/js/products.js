@@ -7,15 +7,64 @@
  * cart, e.g.  options: { label: "Strap Color", values: ["Black", "Brown"] },
  */
 window.CATEGORIES = [
-  { id: "classic", name: "Classic", image: "images/products/classic-heritage-1.jpg" },
-  { id: "sport", name: "Sport", image: "images/products/sport-apex-diver-1.jpg" },
-  { id: "luxury", name: "Luxury", image: "images/products/luxury-sovereign-1.jpg" },
-  { id: "minimalist", name: "Minimalist", image: "images/products/minimal-onyx-1.jpg" },
+  {
+    id: "moissanite",
+    name: "Moissanite Watches",
+    blurb: "Hand-set with brilliant moissanite stones for sparkle that turns heads.",
+    image: "images/products/moissanite-iced-sovereign-2.jpg",
+  },
+  {
+    id: "classic",
+    name: "Classic Watches",
+    blurb: "Timeless everyday watches, from dress to dive.",
+    image: "images/products/classic-meridian-2.jpg",
+  },
 ];
 
 const photos = (slug) => [1, 2, 3].map((n) => `images/products/${slug}-${n}.jpg`);
 
 window.PRODUCTS = [
+  {
+    id: "iced-sovereign",
+    name: "Iced Sovereign",
+    category: "moissanite",
+    price: 349,
+    compareAt: 449,
+    badge: "Bestseller",
+    images: photos("moissanite-iced-sovereign"),
+    description: "Fully iced in gold: a moissanite-set bezel, stone hour markers and a stone-set bracelet. Maximum shine, from every angle.",
+    details: ["40 mm gold-tone stainless steel case", "Moissanite-set bezel, markers and bracelet", "Japanese quartz movement", "3 ATM water resistant"],
+  },
+  {
+    id: "frost-steel",
+    name: "Frost Steel",
+    category: "moissanite",
+    price: 329,
+    badge: "New",
+    images: photos("moissanite-frost-steel"),
+    description: "An ice-blue dial framed by a ring of moissanite, on a stone-set steel bracelet. Cool, crisp and impossible to miss.",
+    details: ["40 mm stainless steel case", "Moissanite-set bezel, markers and bracelet", "Japanese quartz movement", "3 ATM water resistant"],
+  },
+  {
+    id: "rose-halo",
+    name: "Rose Halo",
+    category: "moissanite",
+    price: 279,
+    images: photos("moissanite-rose-halo"),
+    description: "A soft blush dial with a halo of moissanite around the bezel, on a rose-gold-tone bracelet. Elegant sparkle for every day.",
+    details: ["38 mm rose-gold-tone stainless steel case", "Moissanite-set bezel", "Japanese quartz movement · date window", "3 ATM water resistant"],
+  },
+  {
+    id: "black-ice",
+    name: "Black Ice",
+    category: "moissanite",
+    price: 299,
+    compareAt: 379,
+    badge: "Bestseller",
+    images: photos("moissanite-black-ice"),
+    description: "Stealth black case and dial set with bright moissanite, on a comfortable rubber strap. Bold, dark and brilliant.",
+    details: ["42 mm black stainless steel case", "Moissanite-set bezel and markers", "Rubber strap, 22 mm", "5 ATM water resistant"],
+  },
   {
     id: "heritage-classic",
     name: "Heritage Classic",
@@ -40,7 +89,7 @@ window.PRODUCTS = [
   {
     id: "apex-diver",
     name: "Apex Diver",
-    category: "sport",
+    category: "classic",
     price: 129,
     compareAt: 169,
     badge: "Bestseller",
@@ -51,7 +100,7 @@ window.PRODUCTS = [
   {
     id: "voyager-chrono",
     name: "Voyager Chronograph",
-    category: "sport",
+    category: "classic",
     price: 139,
     images: photos("sport-voyager-chrono"),
     description: "A crisp white chronograph with three sub-dials and a solid steel bracelet. Precision you can see.",
@@ -60,7 +109,7 @@ window.PRODUCTS = [
   {
     id: "sovereign-gold",
     name: "Sovereign Gold",
-    category: "luxury",
+    category: "classic",
     price: 169,
     compareAt: 229,
     badge: "Bestseller",
@@ -71,7 +120,7 @@ window.PRODUCTS = [
   {
     id: "noir-rose-chrono",
     name: "Noir Rose Chronograph",
-    category: "luxury",
+    category: "classic",
     price: 149,
     badge: "New",
     images: photos("luxury-noir-rose"),
@@ -81,7 +130,7 @@ window.PRODUCTS = [
   {
     id: "nordic-mesh",
     name: "Nordic Mesh",
-    category: "minimalist",
+    category: "classic",
     price: 79,
     images: photos("minimal-nordic-mesh"),
     description: "An ultra-clean white dial with no numbers and a fine steel mesh strap. Scandinavian simplicity on your wrist.",
@@ -90,7 +139,7 @@ window.PRODUCTS = [
   {
     id: "onyx-minimal",
     name: "Onyx Minimal",
-    category: "minimalist",
+    category: "classic",
     price: 85,
     compareAt: 110,
     images: photos("minimal-onyx"),

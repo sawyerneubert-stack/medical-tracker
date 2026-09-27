@@ -9,23 +9,25 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24'%3E%3Cpath d='M3 19 5 6l6.5 6.5L16 3l4.5 9.5L27 6l2 13Z' fill='%23b08d57'/%3E%3C/svg%3E">
 <title>KROWN Watches | Timepieces Made for Every Moment</title>
-<meta name="description" content="Classic, sport, luxury and minimalist watches made for everyday wear. Free shipping over $50 and 30-day returns.">
-<link rel="preload" as="image" href="images/hero.jpg">
+<meta name="description" content="Moissanite and classic watches made for everyday wear. Free shipping over $50 and 30-day returns.">
 </head>
 <body data-page="home">
 <div id="site-header"></div>
 
 <main>
   <section class="hero">
-    <img class="hero-img" src="images/hero.jpg" alt="Two KROWN watches, one on a steel bracelet and one on brown leather" width="1800" height="1100">
-    <div class="hero-text">
-      <div class="container">
-        <div class="hero-copy">
-          <div class="eyebrow">Watches for Every Wrist</div>
-          <h1>Timepieces Made for Every Moment</h1>
-          <p>Classic, sport, luxury and minimalist watches designed to be worn every day, from your morning meeting to your biggest nights.</p>
-          <a href="shop.html" class="btn">Shop Now</a>
-        </div>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow">Watches for Every Wrist</div>
+        <h1>Timepieces Made for Every Moment</h1>
+        <p>Moissanite and classic watches designed to be worn every day, from your morning meeting to your biggest nights.</p>
+        <a href="shop.html" class="btn">Shop Now</a>
+      </div>
+      <div class="slider" id="slider" aria-roledescription="carousel" aria-label="Featured watches">
+        <div class="slides" id="slides"></div>
+        <button class="slide-arrow prev" id="slide-prev" aria-label="Previous watch">&#8249;</button>
+        <button class="slide-arrow next" id="slide-next" aria-label="Next watch">&#8250;</button>
+        <div class="slide-dots" id="slide-dots"></div>
       </div>
     </div>
   </section>
@@ -41,8 +43,8 @@
 
   <section class="section">
     <div class="container">
-      <div class="section-head"><div class="eyebrow">Shop by Style</div><h2>Find Your Watch</h2></div>
-      <div class="cat-grid" id="categories"></div>
+      <div class="section-head"><div class="eyebrow">Our Collections</div><h2>Find Your Watch</h2></div>
+      <div class="collections" id="categories"></div>
     </div>
   </section>
 
@@ -100,8 +102,49 @@
   (function () {
     const { $, esc, cardHTML } = window.K;
     $("#categories").innerHTML = window.CATEGORIES.map(
-      (c) => `<a class="cat-tile" href="shop.html?cat=${c.id}"><img src="${c.image}" alt="${esc(c.name)}" loading="lazy" width="1000" height="1000"><span>${esc(c.name)}</span></a>`
+      (c) => `<a class="collection" href="shop.html?cat=${c.id}">
+        <img src="${esc(c.image)}" alt="${esc(c.name)}" loading="lazy" width="1000" height="1000">
+        <div class="collection-info"><h3>${esc(c.name)}</h3><p>${esc(c.blurb || "")}</p><span class="btn btn-outline btn-sm">Shop ${esc(c.name)}</span></div>
+      </a>`
     ).join("");
+
+    // Cover slideshow: list the watches to feature, in order (ids from js/products.js).
+    const heroSlides = ["iced-sovereign", "heritage-classic", "black-ice", "meridian-steel", "frost-steel", "apex-diver"];
+    const slides = heroSlides.map(window.K.product).filter(Boolean);
+    $("#slides").innerHTML = slides.map((p, i) => `
+      <a class="slide${i === 0 ? " active" : ""}" href="product.html?id=${encodeURIComponent(p.id)}" aria-hidden="${i !== 0}" tabindex="${i === 0 ? 0 : -1}">
+        <img src="${esc(p.images[0])}" alt="${esc(p.name)}" width="1000" height="1000" ${i ? 'loading="lazy"' : ""}>
+        <span class="slide-cap"><span><span class="slide-name">${esc(p.name)}</span>${window.K.priceHTML(p)}</span><span class="slide-cta">Shop &rarr;</span></span>
+      </a>`).join("");
+    $("#slide-dots").innerHTML = slides.map((p, i) => `<button aria-label="Show ${esc(p.name)}" aria-current="${i === 0}"></button>`).join("");
+
+    let current = 0, timer = null;
+    const slideEls = document.querySelectorAll(".slide"), dotEls = document.querySelectorAll("#slide-dots button");
+    function show(n) {
+      current = (n + slides.length) % slides.length;
+      slideEls.forEach((el, i) => { el.classList.toggle("active", i === current); el.setAttribute("aria-hidden", i !== current); el.tabIndex = i === current ? 0 : -1; });
+      dotEls.forEach((el, i) => el.setAttribute("aria-current", i === current));
+    }
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const play = () => { if (!reduceMotion && slides.length > 1) { clearInterval(timer); timer = setInterval(() => show(current + 1), 4500); } };
+    const pause = () => clearInterval(timer);
+    $("#slide-prev").onclick = () => { show(current - 1); play(); };
+    $("#slide-next").onclick = () => { show(current + 1); play(); };
+    dotEls.forEach((el, i) => (el.onclick = () => { show(i); play(); }));
+    const slider = $("#slider");
+    slider.addEventListener("mouseenter", pause);
+    slider.addEventListener("mouseleave", play);
+    slider.addEventListener("focusin", pause);
+    slider.addEventListener("focusout", play);
+    let startX = null;
+    slider.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; pause(); }, { passive: true });
+    slider.addEventListener("touchend", (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) show(current + (dx < 0 ? 1 : -1));
+      startX = null; play();
+    });
+    document.addEventListener("visibilitychange", () => (document.hidden ? pause() : play()));
+    play();
     const best = window.PRODUCTS.filter((p) => p.badge === "Bestseller");
     const rest = window.PRODUCTS.filter((p) => p.badge !== "Bestseller");
     $("#bestsellers").innerHTML = best.concat(rest).slice(0, 8).map(cardHTML).join("");

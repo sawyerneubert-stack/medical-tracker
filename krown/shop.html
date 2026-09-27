@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24'%3E%3Cpath d='M3 19 5 6l6.5 6.5L16 3l4.5 9.5L27 6l2 13Z' fill='%23b08d57'/%3E%3C/svg%3E">
 <title>Shop All Watches | KROWN Watches</title>
-<meta name="description" content="Shop classic, sport, luxury and minimalist watches from KROWN Watches.">
+<meta name="description" content="Shop moissanite and classic watches from KROWN Watches.">
 </head>
 <body data-page="shop">
 <div id="site-header"></div>
@@ -19,7 +19,7 @@
     <div class="container">
       <div class="eyebrow">The Collection</div>
       <h1 id="shop-title">Shop All</h1>
-      <p id="shop-sub">Classic, sport, luxury and minimalist watches, made for every wrist.</p>
+      <p id="shop-sub">Moissanite and classic watches, made for every wrist.</p>
     </div>
   </div>
   <div class="container">
@@ -44,6 +44,7 @@
       .join("");
     if (cat) {
       $("#shop-title").textContent = cat.name;
+      if (cat.blurb) $("#shop-sub").textContent = cat.blurb;
       document.title = `${cat.name} | KROWN Watches`;
     }
     const list = window.PRODUCTS.filter((p) => !cat || p.category === cat.id);
