@@ -88,7 +88,6 @@
     const header = $("#site-header");
     if (header) {
       header.innerHTML = `
-        <div class="announce">Free shipping on orders over ${shortMoney(cfg.freeShippingOver)} &nbsp;·&nbsp; 30-day returns</div>
         <nav class="nav">
           <div class="container nav-inner">
             <a href="index.html" class="logo" aria-label="${esc(cfg.brand)} home">${LOGO}<span>KROWN<small>WATCHES</small></span></a>
