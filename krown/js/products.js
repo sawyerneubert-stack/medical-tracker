@@ -39,7 +39,7 @@ window.PRODUCTS = [
     id: "frost-steel",
     name: "Frost Steel",
     category: "moissanite",
-    price: 329,
+    price: 1,500,
     badge: "New",
     images: photos("moissanite-frost-steel"),
     description: "An ice-blue dial framed by a ring of moissanite, on a stone-set steel bracelet. Cool, crisp and impossible to miss.",
