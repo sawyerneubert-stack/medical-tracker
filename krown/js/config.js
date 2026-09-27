@@ -12,6 +12,7 @@ window.KROWN = {
   // so you can forward it to your supplier.
   orderWebhook: "",
 
+  freeShippingOver: 100,
   shipping: [
     { id: "standard", label: "Standard Shipping", eta: "7–12 business days", price: 4.95 },
     { id: "express", label: "Express Shipping", eta: "3–6 business days", price: 14.95 },
