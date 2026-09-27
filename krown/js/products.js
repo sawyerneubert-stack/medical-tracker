@@ -46,7 +46,7 @@ window.PRODUCTS = [
     category: "moissanite",
     price: 1500,
     badge: "New",
-    images: photos("moissanite-frost-steel", 3),
+    images: photos("moissanite-frost-steel", 4),
     description: "An ice-blue dial framed by a ring of moissanite, on a stone-set steel bracelet. Cool, crisp and impossible to miss.",
     details: ["40 mm stainless steel case", "Moissanite-set bezel, markers and bracelet", "Japanese quartz movement", "3 ATM water resistant"],
   },
