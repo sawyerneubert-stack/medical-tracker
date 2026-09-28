@@ -77,7 +77,7 @@ window.PRODUCTS = [
     price: 89,
     compareAt: 119,
     badge: "Bestseller",
-    images: photos("classic-heritage", 3),
+    images: photos("classic-heritage", 6),
     description: "A timeless gold-tone dress watch with a cream dial and rich brown leather strap. The watch that goes with everything.",
     details: ["40 mm gold-tone stainless steel case", "Japanese quartz movement", "Genuine leather strap, 20 mm", "Date window · 3 ATM water resistant"],
   },
