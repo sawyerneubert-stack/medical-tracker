@@ -8,8 +8,15 @@
  * upload the next number (-4.jpg) and change the 3 to 4. Photo 1 is the main
  * one; photo 2 shows when shoppers hover. Square images (~1000×1000) work best.
  *
- * Optional: give a watch a choice customers must pick before adding it to the
- * cart, e.g.  options: { label: "Strap Color", values: ["Black", "Brown"] },
+ * COLORS (only for watches that come in more than one color): replace the
+ * watch's  images: ...  line with a colors list. Each color has a name, a
+ * swatch color for the little circle, and its own photos:
+ *     colors: [
+ *       { name: "Silver", swatch: "#c8ced6", images: photos("frost-steel-silver", 3) },
+ *       { name: "Gold",   swatch: "#c9a45c", images: photos("frost-steel-gold", 3) },
+ *     ],
+ * The first color is the one shown on the shop page. Watches without a colors
+ * list work exactly as before.
  */
 window.CATEGORIES = [
   {

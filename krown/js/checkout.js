@@ -4,7 +4,7 @@
  * card details never touch this site. Without it, the page runs in demo mode.
  */
 (function () {
-  const { $, esc, money, product, Cart, cfg, optionText } = window.K;
+  const { $, esc, money, product, Cart, cfg, optionText, imagesFor } = window.K;
   const root = $("#checkout-root");
   const dollars = (c) => (c / 100).toFixed(2);
   const state = { shipping: cfg.shipping[0].id };
@@ -82,7 +82,7 @@
     $("#os-lines").innerHTML = t.lines
       .map((l) => {
         const p = product(l.id);
-        return `<div class="os-line"><div class="os-thumb"><img src="${esc(p.images[0])}" alt="" width="64" height="64"><i>${l.qty}</i></div>
+        return `<div class="os-line"><div class="os-thumb"><img src="${esc(imagesFor(p, l.size)[0])}" alt="" width="64" height="64"><i>${l.qty}</i></div>
           <div>${esc(p.name)}${l.size ? `<small>${esc(optionText(p, l.size))}</small>` : ""}</div><div>${money(p.price * l.qty)}</div></div>`;
       })
       .join("");
@@ -147,7 +147,7 @@
       shippingMethod: (cfg.shipping.find((s) => s.id === state.shipping) || cfg.shipping[0]).label,
       items: t.lines.map((l) => {
         const p = product(l.id);
-        return { sku: p.id, name: p.name, option: optionText(p, l.size), qty: l.qty, price: p.price.toFixed(2), image: p.images[0] };
+        return { sku: p.id, name: p.name, option: optionText(p, l.size), qty: l.qty, price: p.price.toFixed(2), image: imagesFor(p, l.size)[0] };
       }),
       subtotal: dollars(t.subtotal),
       shipping: dollars(t.shipping),
