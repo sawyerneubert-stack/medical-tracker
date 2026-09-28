@@ -46,7 +46,7 @@ window.PRODUCTS = [
     category: "moissanite",
     price: 1500,
     badge: "New",
-    images: photos("moissanite-frost-steel", 3),
+    images: photos("moissanite-frost-steel", 4),
     description: "A fully moissanite stainless steel case and integrated bracelet, framing an openworked skeleton dial with striking blued steel hands and a blue cabochon crown.",
     details: ["40 mm stainless steel case", "Full bust-down VVS Moissanite", "Openworked skeleton with blue-steel hands", "Stainless steel case and integrated bracelet"],
   },
