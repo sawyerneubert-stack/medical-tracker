@@ -23,7 +23,7 @@
 <script src="js/main.js"></script>
 <script>
   (function () {
-    const { $, esc, money, product, Cart, cfg, optionText } = window.K;
+    const { $, esc, money, product, Cart, cfg, optionText, imagesFor } = window.K;
     const root = $("#cart-root");
 
     function render() {
@@ -44,7 +44,7 @@
                 const k = esc(Cart.key(l));
                 const url = `product.html?id=${encodeURIComponent(p.id)}`;
                 return `<div class="cart-line">
-                  <a href="${url}"><img src="${esc(p.images[0])}" alt="${esc(p.name)}" width="110" height="110"></a>
+                  <a href="${url}"><img src="${esc(imagesFor(p, l.size)[0])}" alt="${esc(p.name)}" width="110" height="110"></a>
                   <div>
                     <h3><a href="${url}">${esc(p.name)}</a></h3>
                     <div class="opts">${money(p.price)}${l.size ? " · " + esc(optionText(p, l.size)) : ""}</div>
