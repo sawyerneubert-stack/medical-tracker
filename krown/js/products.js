@@ -66,7 +66,7 @@ window.PRODUCTS = [
     price: 299,
     compareAt: 379,
     badge: "Bestseller",
-    images: photos("moissanite-black-ice", 3),
+    images: photos("moissanite-black-ice", 2),
     description: "Stealth black case and dial set with bright moissanite, on a comfortable rubber strap. Bold, dark and brilliant.",
     details: ["42 mm black stainless steel case", "Moissanite-set bezel and markers", "Rubber strap, 22 mm", "5 ATM water resistant"],
   },
