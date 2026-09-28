@@ -55,7 +55,7 @@ window.PRODUCTS = [
     name: "Rose Halo",
     category: "moissanite",
     price: 279,
-    images: photos("moissanite-rose-halo", 3),
+    images: photos("moissanite-rose-halo", 2),
     description: "A soft blush dial with a halo of moissanite around the bezel, on a rose-gold-tone bracelet. Elegant sparkle for every day.",
     details: ["38 mm rose-gold-tone stainless steel case", "Moissanite-set bezel", "Japanese quartz movement · date window", "3 ATM water resistant"],
   },
