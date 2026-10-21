@@ -28,6 +28,7 @@ cd krown && python3 -m http.server 8000   # then open http://localhost:8000
 3. **Photos:** the images in `images/` are computer-generated placeholders. Replace them with your supplier's or your own photos:
    - Easiest: overwrite a file and keep its name (e.g. `images/products/classic-heritage-1.jpg`).
    - Square images of about 1000×1000 px look best. The first photo is the main one; the second shows when a shopper hovers over a card.
+   - **Colors:** for a watch that comes in several colors, replace its `images:` line with a `colors:` list (see the example at the top of `js/products.js`). Each color gets its own photos, e.g. `frost-steel-gold-1.jpg`. Shoppers pick a color on the product page and it's saved with their order.
    - **More photos for a watch:** upload the next number (e.g. `classic-heritage-4.jpg`), then in `js/products.js` change that watch's `photos("classic-heritage", 3)` to `4`.
 4. **Cover slideshow:** in `index.html`, find `const heroSlides =` and list the product ids you want to feature, in order. It moves on its own every 4.5 seconds, and shoppers can also use the arrows, dots or swipe.
 5. **Collections:** `window.CATEGORIES` in `js/products.js` defines the two homepage sections (Moissanite Watches and Classic Watches): name, short description and image. Set each product's `category` to `"moissanite"` or `"classic"`.

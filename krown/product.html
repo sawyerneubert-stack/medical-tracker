@@ -29,7 +29,7 @@
 <script src="js/main.js"></script>
 <script>
   (function () {
-    const { $, esc, money, shortMoney, param, product, optionOf, cardHTML, priceHTML, addToCart, cfg } = window.K;
+    const { $, esc, money, shortMoney, param, product, optionOf, imagesFor, swatchHTML, cardHTML, priceHTML, addToCart, cfg } = window.K;
     const p = product(param("id"));
     const root = $("#pdp-root");
 
@@ -40,25 +40,29 @@
 
     const cat = window.CATEGORIES.find((c) => c.id === p.category);
     const opt = optionOf(p);
-    const state = { img: 0, size: null, qty: 1 };
+    // Colors start on the first one; other choices must be picked.
+    const state = { img: 0, size: opt && opt.colors ? opt.values[0] : null, qty: 1 };
+    const gallery = (imgs) => `
+          <div class="gallery-main"><img id="main-img" src="${esc(imgs[0])}" alt="${esc(p.name)}" width="1000" height="1000"></div>
+          <div class="thumbs">${imgs
+            .map((src, i) => `<button data-img="${i}" aria-label="View photo ${i + 1}" aria-current="${i === 0}"><img src="${esc(src)}" alt="" width="200" height="200"></button>`)
+            .join("")}</div>`;
     document.title = `${p.name} | KROWN Watches`;
 
     root.innerHTML = `
       <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="shop.html?cat=${cat.id}">${esc(cat.name)}</a> / ${esc(p.name)}</nav>
       <div class="pdp">
-        <div class="gallery">
-          <div class="gallery-main"><img id="main-img" src="${esc(p.images[0])}" alt="${esc(p.name)}" width="1000" height="1000"></div>
-          <div class="thumbs">${p.images
-            .map((src, i) => `<button data-img="${i}" aria-label="View photo ${i + 1}" aria-current="${i === 0}"><img src="${esc(src)}" alt="" width="200" height="200"></button>`)
-            .join("")}</div>
-        </div>
+        <div class="gallery" id="gallery">${gallery(imagesFor(p, state.size))}</div>
         <div class="pdp-info">
           <div class="eyebrow">${esc(cat.name)}</div>
           <h1>${esc(p.name)}</h1>
           <div class="pdp-price">${priceHTML(p)}${p.compareAt ? `<span class="save">Save ${money(p.compareAt - p.price)}</span>` : ""}</div>
           <p class="pdp-desc">${esc(p.description)}</p>
           ${
-            opt
+            opt && opt.colors
+              ? `<div><div class="opt-label"><span>Color: <b id="color-name">${esc(state.size)}</b></span></div>
+                 <div class="color-grid" id="sizes">${opt.colors.map((c, i) => `<button class="color-btn" data-size="${esc(c.name)}" aria-pressed="${i === 0}">${swatchHTML(c)}${esc(c.name)}</button>`).join("")}</div></div>`
+              : opt
               ? `<div><div class="opt-label"><span>${esc(opt.label)}</span></div>
                  <div class="size-grid" id="sizes">${opt.values.map((s) => `<button class="size-btn" data-size="${esc(s)}" aria-pressed="false">${esc(s)}</button>`).join("")}</div>
                  <div class="field-error" id="size-error" hidden>Please select an option.</div></div>`
@@ -86,14 +90,18 @@
       const t = e.target.closest("[data-img]");
       if (t) {
         state.img = +t.dataset.img;
-        $("#main-img").src = p.images[state.img];
+        $("#main-img").src = imagesFor(p, state.size)[state.img];
         root.querySelectorAll("[data-img]").forEach((b) => b.setAttribute("aria-current", b === t));
       }
       const s = e.target.closest("[data-size]");
       if (s) {
         state.size = s.dataset.size;
         root.querySelectorAll("[data-size]").forEach((b) => b.setAttribute("aria-pressed", b === s));
-        $("#size-error").hidden = true;
+        if (opt.colors) {
+          state.img = 0;
+          $("#gallery").innerHTML = gallery(imagesFor(p, state.size));
+          $("#color-name").textContent = state.size;
+        } else $("#size-error").hidden = true;
       }
       const q = e.target.closest("[data-q]");
       if (q) {

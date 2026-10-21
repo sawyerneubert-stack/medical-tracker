@@ -12,8 +12,22 @@
   const shortMoney = (n) => fmt.format(n).replace(/\.00$/, "");
   const product = (id) => window.PRODUCTS.find((p) => p.id === id);
   const param = (name) => new URLSearchParams(location.search).get(name);
-  // Optional per-product choice, e.g. options: { label: "Strap Size", values: ["S", "M", "L"] }
-  const optionOf = (p) => (p && p.options && p.options.values && p.options.values.length ? p.options : null);
+  // A watch can offer colors (colors: [{ name, swatch, images }]) or another choice
+  // (options: { label: "Strap Size", values: ["S", "M", "L"] }). Customers pick one before adding to cart.
+  window.PRODUCTS.forEach((p) => {
+    if (p.colors && p.colors.length && !p.images) p.images = p.colors[0].images;
+  });
+  const optionOf = (p) => {
+    if (p && p.colors && p.colors.length) return { label: "Color", values: p.colors.map((c) => c.name), colors: p.colors };
+    return p && p.options && p.options.values && p.options.values.length ? p.options : null;
+  };
+  // Photos for the chosen color (or the watch's normal photos).
+  const imagesFor = (p, value) => {
+    const c = p.colors && p.colors.find((x) => x.name === value);
+    return c ? c.images : p.images;
+  };
+  const safeColor = (v) => (/^[#a-zA-Z0-9(),.%\s-]{1,40}$/.test(v || "") ? v : "#ccc");
+  const swatchHTML = (c) => `<span class="swatch" style="background:${safeColor(c.swatch)}"></span>`;
   const optionText = (p, value) => (value && optionOf(p) ? `${optionOf(p).label}: ${value}` : "");
 
   const LOGO = `<svg viewBox="0 0 32 24" aria-hidden="true"><path d="M3 19 5 6l6.5 6.5L16 3l4.5 9.5L27 6l2 13Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 22h24" stroke="currentColor" stroke-width="1.6"/></svg>`;
@@ -165,6 +179,7 @@
       <div class="card-info">
         <a href="${url}" class="card-name">${esc(p.name)}</a>
         <div class="card-price">${priceHTML(p)}</div>
+        ${p.colors && p.colors.length > 1 ? `<div class="card-swatches" title="${p.colors.length} colors">${p.colors.map(swatchHTML).join("")}</div>` : ""}
         <button class="btn btn-outline btn-sm" data-add="${esc(p.id)}">Add to Cart</button>
       </div>
     </article>`;
@@ -191,7 +206,11 @@
       <button class="dialog-close" value="cancel" aria-label="Close">✕</button>
       <h3>Select ${esc(optionOf(p).label)}</h3>
       <p>${esc(p.name)} · ${money(p.price)}</p>
-      <div class="size-grid">${optionOf(p).values.map((s) => `<button class="size-btn" value="${esc(s)}">${esc(s)}</button>`).join("")}</div>
+      ${
+        optionOf(p).colors
+          ? `<div class="color-grid">${optionOf(p).colors.map((c) => `<button class="color-btn" value="${esc(c.name)}">${swatchHTML(c)}${esc(c.name)}</button>`).join("")}</div>`
+          : `<div class="size-grid">${optionOf(p).values.map((s) => `<button class="size-btn" value="${esc(s)}">${esc(s)}</button>`).join("")}</div>`
+      }
     </form>`;
     dlg.onclose = () => {
       if (optionOf(p).values.includes(dlg.returnValue)) done(dlg.returnValue);
@@ -222,6 +241,6 @@
     toastTimer = setTimeout(() => t.classList.remove("show"), 3200);
   }
 
-  window.K = { cfg, $, esc, money, shortMoney, product, param, optionOf, optionText, Cart, cardHTML, priceHTML, addToCart, toast };
+  window.K = { cfg, $, esc, money, shortMoney, product, param, optionOf, optionText, imagesFor, swatchHTML, Cart, cardHTML, priceHTML, addToCart, toast };
   renderChrome();
 })();
